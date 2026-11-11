@@ -1,5 +1,6 @@
 //estee archivo será el que se encargará de manejar el juego
 import { GAME_HEIGHT, GAME_WIDTH } from "./constans.js";
+import { RenderSystem as RenderSystem } from "../systems/RenderSystem.js";
 
 // Permite exportar esta clase
 export class Game {
@@ -7,6 +8,8 @@ export class Game {
     constructor(){
         this.canvas = document.getElementById("gameCanva");
         this.ctx = this.canvas.getContext("2d");
+        //esto es... depency injection? y se hace porque RenderSystem necesita acceso a canvas
+        this.RenderSystem = new RenderSystem(this.canvas)
 
         this.init();
     }
@@ -14,6 +17,8 @@ export class Game {
     init(){
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
+
+        requestAnimationFrame((t) => this.gameLoop(t));
     }
 
     // funcion que cambia el tamaño de el espacio del juego
@@ -42,5 +47,15 @@ export class Game {
         this.canvas.style.margin = `${margin}px`;
 
     }
+
+    //timestamp es el mumero de milisegundos que han pasado desde que la pagina inicio
+    gameLoop(timestamp) {
+        //console.log(timestamp/1000);
+        this.RenderSystem.render();
+        // este metodo hace que se ajuste los frames a cada taza de refresco de cada monitor
+        requestAnimationFrame((t) => this.gameLoop(t));
+    }
+
+   
 
 }
