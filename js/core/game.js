@@ -1,6 +1,7 @@
 //estee archivo será el que se encargará de manejar el juego
 import { GAME_HEIGHT, GAME_WIDTH } from "./constans.js";
 import { RenderSystem as RenderSystem } from "../systems/RenderSystem.js";
+import { Player } from "../entities/Player.js";
 
 // Permite exportar esta clase
 export class Game {
@@ -9,7 +10,9 @@ export class Game {
         this.canvas = document.getElementById("gameCanva");
         this.ctx = this.canvas.getContext("2d");
         //esto es... depency injection? y se hace porque RenderSystem necesita acceso a canvas
-        this.RenderSystem = new RenderSystem(this.canvas)
+        this.renderSystem = new RenderSystem(this.canvas);
+        this.player = new Player;
+        this.keys = {};
 
         this.init();
     }
@@ -17,8 +20,27 @@ export class Game {
     init(){
         this.resizeCanvas();
         window.addEventListener('resize', () => this.resizeCanvas());
+        this.setupInput();
 
         requestAnimationFrame((t) => this.gameLoop(t));
+    }
+
+    update(){
+        this.player.update(this.keys);
+    }
+
+    //Controles con las teclas
+    setupInput(){
+        window.addEventListener('keydown', (e) => {
+            this.keys[e.key.toLowerCase()] = true;
+            console.log(this.keys);
+        });
+        // cuando una tecla deja de ser presionada, su valor vuelve a ser falso
+        window.addEventListener('keyup', (e) => {
+            this.keys[e.key.toLowerCase()] = false;
+            console.log(this.keys);
+        });
+
     }
 
     // funcion que cambia el tamaño de el espacio del juego
@@ -50,8 +72,9 @@ export class Game {
 
     //timestamp es el mumero de milisegundos que han pasado desde que la pagina inicio
     gameLoop(timestamp) {
+        this.update();
         //console.log(timestamp/1000);
-        this.RenderSystem.render();
+        this.renderSystem.render(this.player);
         // este metodo hace que se ajuste los frames a cada taza de refresco de cada monitor
         requestAnimationFrame((t) => this.gameLoop(t));
     }

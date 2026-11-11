@@ -1,5 +1,6 @@
 
 import { GAME_HEIGHT, GAME_WIDTH, GRID_SIZE } from "../core/constans.js";
+import { Player } from "../entities/Player.js";
 
 export class RenderSystem {
     constructor(canvas){
@@ -9,12 +10,21 @@ export class RenderSystem {
 
     }
 
-    render() {
-        //Backgroubd
+    render(player) {
+        //Background
         this.ctx.fillStyle = "#223483";
         this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         this.renderGrid();
+        this.renderPlayer(player);
 
+    }
+
+    renderPlayer(player) {
+        this.ctx.fillStyle = "blue";
+        this.ctx.fillRect(player.x, player.y, player.width, player.height);
+        
+        this.ctx.strokeStyle = "white"
+        this.ctx.strokeRect(player.x, player.y, player.width, player.height);
     }
 
     renderGrid() {
