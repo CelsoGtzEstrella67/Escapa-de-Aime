@@ -15,6 +15,8 @@ body {
     display: flex;
     height: 100vh;
     position: relative;
+    justify-content: center;
+    align-items: center;
 
 }
 
