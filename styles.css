@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(6, 6, 49);
+    overflow: hidden;
+    /*Oculta todo loq ue se oculta fuera de la pantalla y evita creo que, barras de navegacion
+    si nuestro personaje o ecenario se encuentra cerca de las esquinas*/
+}
+
+#contenedor {
+    display: flex;
+    height: 100vh;
+    position: relative;
+
+}
+
+#gameCanva {
+    border: 5px solid rgb(183, 180, 192);
+    background:rgb(34, 52, 131);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    /* Segun vi, esto evita que nuestras imagenes se vean como borrosas 
+    crisp-edges es como otra opcion de eso para cualquier navegador*/
+
+}
