@@ -3,10 +3,10 @@ import { GAME_HEIGHT, GAME_WIDTH, GRID_SIZE } from "../core/constans.js";
 import { Player } from "../entities/Player.js";
 
 export class RenderSystem {
-    constructor(canvas){
+    constructor(canvas, imageManager){
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
-
+        this.imageManager = imageManager;
 
     }
 
@@ -20,11 +20,22 @@ export class RenderSystem {
     }
 
     renderPlayer(player) {
-        this.ctx.fillStyle = "blue";
-        this.ctx.fillRect(player.x, player.y, player.width, player.height);
+        const playerImage = this.imageManager.get('player');
+
+        if (playerImage){
+            this.ctx.drawImage(playerImage, player.x, player.y, player.height, player.width);
+
+        } else {
+            //fallback: carga el rectangulo en caso de que la imagen no carge
+            this.ctx.fillStyle = "blue";
+            this.ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            this.ctx.strokeStyle = "white"
+            this.ctx.strokeRect(player.x, player.y, player.width, player.height);
+
+        }
+
         
-        this.ctx.strokeStyle = "white"
-        this.ctx.strokeRect(player.x, player.y, player.width, player.height);
     }
 
     renderGrid() {

@@ -2,10 +2,13 @@ import { GAME_WIDTH, GAME_HEIGHT } from "../core/constans.js";
 
 export class Player {
     constructor(){
-        this.x = GAME_WIDTH / 2;
-        this.y = GAME_HEIGHT / 2;
-        this.width = 64;
-        this.height = 64;
+        this.width = 128;
+        this.height = 128;
+
+        // centrar al jugador sin importar su tamaño
+        this.x = (GAME_WIDTH - this.width) / 2;
+        this.y = (GAME_HEIGHT - this.height) / 2;
+        
         this.speed = 300;
         this.speedMultiplier = 2;
 

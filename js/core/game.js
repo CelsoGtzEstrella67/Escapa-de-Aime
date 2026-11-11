@@ -2,6 +2,7 @@
 import { GAME_HEIGHT, GAME_WIDTH } from "./constans.js";
 import { RenderSystem as RenderSystem } from "../systems/RenderSystem.js";
 import { Player } from "../entities/Player.js";
+import { ImageManager } from "../managers/ImageManager.js";
 
 // Permite exportar esta clase
 export class Game {
@@ -9,8 +10,12 @@ export class Game {
     constructor(){
         this.canvas = document.getElementById("gameCanva");
         this.ctx = this.canvas.getContext("2d");
+
+        this.imageManager = new ImageManager();
+        this.imageManager.loadAll();
+
         //esto es... depency injection? y se hace porque RenderSystem necesita acceso a canvas
-        this.renderSystem = new RenderSystem(this.canvas);
+        this.renderSystem = new RenderSystem(this.canvas, this.imageManager);
         this.player = new Player;
         this.keys = {};
         this.lastTime;
