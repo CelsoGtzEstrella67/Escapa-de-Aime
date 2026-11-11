@@ -13,6 +13,7 @@ export class Game {
         this.renderSystem = new RenderSystem(this.canvas);
         this.player = new Player;
         this.keys = {};
+        this.lastTime;
 
         this.init();
     }
@@ -22,23 +23,30 @@ export class Game {
         window.addEventListener('resize', () => this.resizeCanvas());
         this.setupInput();
 
+        this.lastTime = performance.now();
         requestAnimationFrame((t) => this.gameLoop(t));
     }
 
-    update(){
-        this.player.update(this.keys);
+    update(dt){
+        this.player.update(dt, this.keys);
     }
 
     //Controles con las teclas
     setupInput(){
         window.addEventListener('keydown', (e) => {
             this.keys[e.key.toLowerCase()] = true;
-            console.log(this.keys);
         });
         // cuando una tecla deja de ser presionada, su valor vuelve a ser falso
         window.addEventListener('keyup', (e) => {
             this.keys[e.key.toLowerCase()] = false;
-            console.log(this.keys);
+        });
+        // limpia keys cuando se abre el menu de contetos
+        window.addEventListener('contextmenu', () => {
+            this.keys = {};
+        });
+        // limpia keys cuando la ventana pierde el foco
+        window.addEventListener('bur', () => {
+            this.keys = {};
         });
 
     }
@@ -72,7 +80,13 @@ export class Game {
 
     //timestamp es el mumero de milisegundos que han pasado desde que la pagina inicio
     gameLoop(timestamp) {
-        this.update();
+        // el tiempo que pasa entre dos frames
+        // se agrega la division entre 1000 para trabajar con segundos y no con milisegundos
+        const dt = Math.min((timestamp - this.lastTime)/1000, 0.1);
+        //console.log(dt);
+        this.lastTime = timestamp;
+
+        this.update(dt);
         //console.log(timestamp/1000);
         this.renderSystem.render(this.player);
         // este metodo hace que se ajuste los frames a cada taza de refresco de cada monitor

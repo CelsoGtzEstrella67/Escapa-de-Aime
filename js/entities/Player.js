@@ -6,12 +6,12 @@ export class Player {
         this.y = GAME_HEIGHT / 2;
         this.width = 64;
         this.height = 64;
-        this.speed = 3;
+        this.speed = 300;
         this.speedMultiplier = 2;
 
     }
 
-    update(keys){
+    update(dt, keys){
 
         let dx = 0, dy = 0;
 
@@ -29,8 +29,12 @@ export class Player {
             dx /= len;
             dy /= len;
 
-            this.x += dx * this.speed * this.speedMultiplier;
-            this.y += dy * this.speed * this.speedMultiplier;
+            /* con deltatime aseguramos que el jugador vaya a la misma velocidad
+            sin importar la tasa de refrescos del computador, al multiplicarlo
+            es como decirle "avanza tantos pixeles por segundo"
+            */
+            this.x += dx * this.speed * this.speedMultiplier * dt;
+            this.y += dy * this.speed * this.speedMultiplier * dt;
 
             //asegurar que el jugaador no salga de la pantalla
             //aqui hace que el jugador no se salga de los lados 
