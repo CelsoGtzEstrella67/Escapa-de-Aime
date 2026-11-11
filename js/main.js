@@ -1,1 +1,1 @@
-console.log("Juego cargado a la perfeccion");
+console.log("Juego cargado a la perfeccion xd");
