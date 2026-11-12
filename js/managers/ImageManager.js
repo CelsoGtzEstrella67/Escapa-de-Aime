@@ -12,7 +12,7 @@ export class ImageManager {
 
         img.onload = () => {
             this.images[name].loaded = true;
-            console.log(`image loades: ${name}`);
+            //console.log(`image loades: ${name}`);
         }
 
         img.onerror = () => {
@@ -28,7 +28,9 @@ export class ImageManager {
     }
     //carga todas las imagenes que el juego necesita asi de una
     loadAll(){
-        this.load('player', '../resources/images/chiwis.jpg');
+        this.load('player', '../resources/images/chiwis.gif');
+        this.load('enemies', '../resources/images/aimep3.jpg');
+        this.load('calle', '../resources/images/calle.jpg');
 
     }
 
