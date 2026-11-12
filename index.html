@@ -7,12 +7,27 @@
     <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-    <div id="contenedor">
+    <div id="gameContainer">
 
         <!-- Usaremos canvas para poder dibujar superficies en nuestro navegador -->
-        <canvas id="gameCanva">
+        <canvas id="gameCanva"></canvas>
 
-        </canvas>
+        <!-- Main Menu -->
+        <div id="mainMenu" class="ui-panel active">
+            <h1>Escapa de Aime</h1>
+            <button id="playBtn" class="panelBotton">Play</button>
+        </div>
+
+        <div id="bottomConfig">
+            <button id="reset" class="configB active">RESET</button>
+            <button id="hardMode" class="configB active">EXTREMO</button>
+            
+        </div>
+
+        <h2>made by: Celso Gtz and Gladys Chuma</h2>
+
+
+        
     </div>
 
     <!-- El tipo "module" permite importar/exportar y dividir nuestro codigo en pequeños modulos-->

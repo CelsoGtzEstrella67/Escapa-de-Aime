@@ -1,5 +1,6 @@
 
 import { GAME_HEIGHT, GAME_WIDTH, GRID_SIZE } from "../core/constans.js";
+import { Enemy } from "../entities/Enemy.js";
 import { Player } from "../entities/Player.js";
 
 export class RenderSystem {
@@ -10,13 +11,37 @@ export class RenderSystem {
 
     }
 
-    render(player) {
+    render(player, enemies = []) {
         //Background
-        this.ctx.fillStyle = "#223483";
-        this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        
+        const calle = this.imageManager.get('calle');
+
+        if (calle) {
+            this.ctx.drawImage(calle, 0, 0, GAME_WIDTH, GAME_HEIGHT);
+        } else {
+            // Fallback: fondo azul si la imagen aún no carga
+            this.ctx.fillStyle = "#223483";
+            this.ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        }
+
         this.renderGrid();
+        this.renderEnemies(enemies);
         this.renderPlayer(player);
 
+    }
+
+    renderEnemies(enemies){
+        const aimeImage = this.imageManager.get('enemies');
+
+        for (let i = 0; i < enemies.length; i++){
+            if (aimeImage) {
+                this.ctx.drawImage(aimeImage, enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
+            } else {
+                // Fallback: dibuja el cuadro rojo si la imagen aún no carga o no existe
+                this.ctx.fillStyle = "#ff0000";
+                this.ctx.fillRect(enemies[i].x, enemies[i].y, enemies[i].width, enemies[i].height);
+            }
+        }
     }
 
     renderPlayer(player) {
@@ -38,23 +63,24 @@ export class RenderSystem {
         
     }
 
+    
     renderGrid() {
-        this.ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+        this.ctx.strokeStyle = "rgba(255, 255, 255, 0)";
         this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
 
         for (let i = 0; i < GAME_WIDTH; i += GRID_SIZE){
-            this.ctx.beginPath();
+            
             this.ctx.moveTo(i, 0);
             this.ctx.lineTo(i, GAME_HEIGHT);
-            this.ctx.stroke();
         }
 
         for (let i = 0; i < GAME_HEIGHT; i += GRID_SIZE){
-            this.ctx.beginPath();
+            
             this.ctx.moveTo(0, i);
             this.ctx.lineTo(GAME_WIDTH, i);
-            this.ctx.stroke();
         }
+        this.ctx.stroke();
         
 
     }
