@@ -28,9 +28,9 @@ export class ImageManager {
     }
     //carga todas las imagenes que el juego necesita asi de una
     loadAll(){
-        this.load('player', '../resources/images/chiwis.gif');
-        this.load('enemies', '../resources/images/aimep3.jpg');
-        this.load('calle', '../resources/images/calle.jpg');
+        this.load('player', './resources/images/chiwis.gif');
+        this.load('enemies', './resources/images/aimep3.jpg');
+        this.load('calle', './resources/images/calle.jpg');
 
     }
 
